@@ -11,11 +11,15 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model Post {
+model Transaction {
     id        Int      @id @default(autoincrement())
-    name      String
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    name      String
+    amount    String
+    category  String
+    status    String
 
-    @@index([name])
+    @@index([name], name: "name_index")
+    @@index([amount], name: "amount_index")
+    @@index([category], name: "category_index")
 }
