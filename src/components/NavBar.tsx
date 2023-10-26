@@ -3,13 +3,9 @@
 import Link from "next/link";
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { ModeToggle } from "./ui/mode-toggle";

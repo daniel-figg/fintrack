@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-export default async function Home() {
+export default function Home() {
   return (
     <main>
       <h1>BODY</h1>
