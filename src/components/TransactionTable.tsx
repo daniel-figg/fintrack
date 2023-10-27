@@ -17,6 +17,22 @@ const transactions = [
     category: "Convenience",
     status: "Approved",
   },
+  {
+    id: "1",
+    date: "10/26/2023",
+    name: "7-Eleven",
+    amount: "17.72",
+    category: "Convenience",
+    status: "Approved",
+  },
+  {
+    id: "1",
+    date: "10/26/2023",
+    name: "7-Eleven",
+    amount: "17.72",
+    category: "Convenience",
+    status: "Approved",
+  },
 ];
 
 export function TransactionTable() {
