@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "~/components/theme-provider";
 import NavBar from "~/components/NavBar";
+import { Providers } from "~/components/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,8 +31,10 @@ export default function RootLayout({
         <body className={`font-sans ${inter.variable}`}>
           <TRPCReactProvider headers={headers()}>
             <ThemeProvider attribute="class" defaultTheme="system">
-              <NavBar />
-              {children}
+              <Providers>
+                <NavBar />
+                {children}
+              </Providers>
             </ThemeProvider>
           </TRPCReactProvider>
         </body>
