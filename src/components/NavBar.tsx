@@ -65,14 +65,17 @@ import { Button } from "@nextui-org/button";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "./ui/mode-toggle";
+import { usePathname } from "next/navigation";
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const pathname = usePathname();
 
   const menuItems = ["Home", "Portfolio", "Transactions", "Accounts"];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="border-b">
+    <Navbar onMenuOpenChange={setIsMenuOpen} isBordered={true}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -86,18 +89,19 @@ export default function App() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden gap-4 sm:flex " justify="center">
-        <NavbarItem>
+      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
+        <NavbarItem isActive={pathname === "/portfolio" ? true : false}>
           <Link href="/portfolio">Portfolio</Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={pathname === "/transactions" ? true : false}>
           <Link href="/transactions">Transactions</Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={pathname === "/accounts" ? true : false}>
           <Link href="/accounts">Accounts</Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
+        <ModeToggle />
         <SignedOut>
           <NavbarItem>
             <Button as={Link} color="primary" href="/login" variant="flat">
