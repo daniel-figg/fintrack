@@ -5,9 +5,9 @@ import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "~/components/theme-provider";
+import { ThemeProvider } from "~/components/ThemeProvider";
 import NavBar from "~/components/NavBar";
-import { Providers } from "~/components/providers";
+import { NextUIProviders } from "~/components/NextUIProviders";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,10 +31,10 @@ export default function RootLayout({
         <body className={`font-sans ${inter.variable} min-h-screen`}>
           <TRPCReactProvider headers={headers()}>
             <ThemeProvider attribute="class" defaultTheme="system">
-              <Providers>
+              <NextUIProviders>
                 <NavBar />
                 {children}
-              </Providers>
+              </NextUIProviders>
             </ThemeProvider>
           </TRPCReactProvider>
         </body>
