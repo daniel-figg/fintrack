@@ -1,6 +1,5 @@
 import DoughnutChart from "~/components/DoughnutChart";
 import HorizontalBarChart from "~/components/HorizontalBarChart";
-// import { TransactionTable } from "~/components/TransactionTable";
 import { type Payment, columns } from "./columns";
 import { DataTable } from "~/components/ui/data-table";
 import VerticalBarChart from "~/components/VerticalBarChart";
