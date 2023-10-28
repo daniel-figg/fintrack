@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`font-sans ${inter.variable} h-full`}>
+        <body className={`font-sans ${inter.variable} min-h-screen`}>
           <TRPCReactProvider headers={headers()}>
             <ThemeProvider attribute="class" defaultTheme="system">
               <Providers>
