@@ -11,13 +11,18 @@ generator client {
     provider = "prisma-client-js"
 }
 
+model AccessToken {
+    itemId      String @id
+    accessToken String
+}
+
 model Transaction {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    name      String
-    amount    String
-    category  String
-    status    String
+    id       Int      @id @default(autoincrement())
+    date     DateTime @default(now())
+    name     String
+    amount   String
+    category String
+    status   String
 
     @@index([name], name: "name_index")
     @@index([amount], name: "amount_index")
