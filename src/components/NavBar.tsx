@@ -53,7 +53,7 @@ export default function App() {
         <ModeToggle />
         <SignedOut>
           <NavbarItem>
-            <Button as={Link} color="primary" href="/login" variant="flat">
+            <Button as={Link} color="primary" href="/sign-in" variant="flat">
               Login
             </Button>
           </NavbarItem>
