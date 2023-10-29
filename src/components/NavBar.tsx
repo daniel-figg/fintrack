@@ -60,16 +60,15 @@ export default function App() {
         </SignedOut>
         <SignedIn>
           <UserButton
-            appearance={{
-              elements: {
-                card: "bg-background",
-                userPreviewMainIdentifier: "text-foreground",
-                userPreviewSecondaryIdentifier: "text-muted-foreground",
-                userButtonPopoverActionButtonText: "text-foreground",
-                userButtonPopoverActionButtonIcon: "text-foreground",
-                navbarButtonIcon: "bg-background",
-              },
-            }}
+          // appearance={{
+          //   elements: {
+          //     card: "bg-background",
+          //     userPreviewMainIdentifier: "text-foreground",
+          //     userPreviewSecondaryIdentifier: "text-muted-foreground",
+          //     userButtonPopoverActionButtonText: "text-foreground",
+          //     userButtonPopoverActionButtonIcon: "text-foreground",
+          //   },
+          // }}
           />
         </SignedIn>
       </NavbarContent>
