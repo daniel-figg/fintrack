@@ -31,7 +31,6 @@ export const linkRouter = createTRPCRouter({
       client_name: "Personal Finance App",
       products: [
         Products.Transactions,
-        Products.Balance,
         Products.Investments,
         Products.Liabilities,
         Products.Auth,
@@ -45,6 +44,7 @@ export const linkRouter = createTRPCRouter({
       return linkToken;
     } catch (error) {
       // handle error
+      console.log(error);
     }
   }),
   exchangePublicToken: publicProcedure
