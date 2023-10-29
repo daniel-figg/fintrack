@@ -1,13 +1,10 @@
-import { api } from "~/trpc/server";
-import LinkButton from "~/components/LinkButton";
+import Link from "next/link";
 
-export default async function Home() {
-  const linkToken = await api.link.createLinkToken.query();
-
+export default function Home() {
   return (
     <main>
       <h1>BODY</h1>
-      <LinkButton linkToken={linkToken} />
+      <Link href="/connect-account">Connect bank</Link>
     </main>
   );
 }
