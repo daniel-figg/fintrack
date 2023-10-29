@@ -59,7 +59,18 @@ export default function App() {
           </NavbarItem>
         </SignedOut>
         <SignedIn>
-          <UserButton />
+          <UserButton
+            appearance={{
+              elements: {
+                card: "bg-background",
+                userPreviewMainIdentifier: "text-foreground",
+                userPreviewSecondaryIdentifier: "text-muted-foreground",
+                userButtonPopoverActionButtonText: "text-foreground",
+                userButtonPopoverActionButtonIcon: "text-foreground",
+                navbarButtonIcon: "bg-background",
+              },
+            }}
+          />
         </SignedIn>
       </NavbarContent>
       <NavbarMenu>
