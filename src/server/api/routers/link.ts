@@ -29,7 +29,13 @@ export const linkRouter = createTRPCRouter({
         client_user_id: "user-id",
       },
       client_name: "Personal Finance App",
-      products: [Products.Transactions],
+      products: [
+        Products.Transactions,
+        Products.Balance,
+        Products.Investments,
+        Products.Liabilities,
+        Products.Auth,
+      ],
       country_codes: [CountryCode.Us],
       language: "en",
     };
