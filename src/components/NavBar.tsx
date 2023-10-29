@@ -53,22 +53,30 @@ export default function App() {
         <ModeToggle />
         <SignedOut>
           <NavbarItem>
-            <Button as={Link} color="primary" href="/sign-in" variant="flat">
+            <Button
+              as={Link}
+              color="primary"
+              href="/sign-in"
+              variant="flat"
+              className="text-base"
+            >
               Login
             </Button>
           </NavbarItem>
         </SignedOut>
         <SignedIn>
           <UserButton
-          // appearance={{
-          //   elements: {
-          //     card: "bg-background",
-          //     userPreviewMainIdentifier: "text-foreground",
-          //     userPreviewSecondaryIdentifier: "text-muted-foreground",
-          //     userButtonPopoverActionButtonText: "text-foreground",
-          //     userButtonPopoverActionButtonIcon: "text-foreground",
-          //   },
-          // }}
+            appearance={
+              {
+                //   elements: {
+                //     card: "bg-background",
+                //     userPreviewMainIdentifier: "text-foreground",
+                //     userPreviewSecondaryIdentifier: "text-muted-foreground",
+                //     userButtonPopoverActionButtonText: "text-foreground",
+                //     userButtonPopoverActionButtonIcon: "text-foreground",
+                //   },
+              }
+            }
           />
         </SignedIn>
       </NavbarContent>
