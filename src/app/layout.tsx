@@ -7,7 +7,6 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "~/components/ThemeProvider";
 import { NextUIProviders } from "~/components/NextUIProviders";
-import { dark } from "@clerk/themes";
 import NavBar from "~/components/NavBar";
 
 const inter = Inter({
@@ -27,11 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
+    <ClerkProvider>
       <html lang="en">
         <body className={`font-sans ${inter.variable} min-h-screen`}>
           <TRPCReactProvider headers={headers()}>
