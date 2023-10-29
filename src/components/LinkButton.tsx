@@ -3,11 +3,11 @@
 import { Button } from "./ui/button";
 import { type PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
 
-interface props {
+interface linkButton {
   linkToken: string | undefined;
 }
 
-const LinkButton: React.FC<props> = ({ linkToken }) => {
+const LinkButton: React.FC<linkButton> = ({ linkToken }) => {
   const { open, ready } = usePlaidLink<PlaidLinkOptions>({
     token: linkToken,
     onSuccess: (public_token, metadata) => {
