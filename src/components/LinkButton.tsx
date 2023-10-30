@@ -1,5 +1,6 @@
 "use client";
 
+import Exchange from "./Exchange";
 import { Button } from "./ui/button";
 import { type PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
 
@@ -10,9 +11,10 @@ interface linkButton {
 const LinkButton: React.FC<linkButton> = ({ linkToken }) => {
   const { open, ready } = usePlaidLink<PlaidLinkOptions>({
     token: linkToken,
-    onSuccess: (public_token, metadata) => {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    onSuccess: async (public_token, metadata): Promise<undefined> => {
       // send public_token to server
-      console.log("success", public_token, metadata);
+      await Exchange(public_token);
     },
   });
 
