@@ -11,9 +11,14 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model AccessToken {
-    itemId      String @id
+model User {
+    userId      String @id
+    name        String
+    itemId      String
     accessToken String
+
+    @@index([userId], name: "userid_index")
+    @@index([accessToken], name: "accessToken_index")
 }
 
 model Transaction {
