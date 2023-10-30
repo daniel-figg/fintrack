@@ -1,5 +1,6 @@
 "use server";
 
+import { auth, currentUser } from "@clerk/nextjs";
 import {
   Configuration,
   type ItemPublicTokenExchangeRequest,
@@ -8,7 +9,7 @@ import {
 } from "plaid";
 import { db } from "~/server/db";
 
-const Exchange = async (input: string) => {
+const Exchange = async (token: string) => {
   const configuration = new Configuration({
     basePath: PlaidEnvironments.sandbox,
     baseOptions: {
@@ -21,15 +22,21 @@ const Exchange = async (input: string) => {
   const plaidClient = new PlaidApi(configuration);
 
   const request: ItemPublicTokenExchangeRequest = {
-    public_token: input,
+    public_token: token,
   };
+
+  const { userId } = auth();
+  const user = await currentUser();
 
   try {
     const response = await plaidClient.itemPublicTokenExchange(request);
     const generatedToken = response.data.access_token;
     const generatedId = response.data.item_id;
-    await db.accessToken.create({
+
+    await db.user.create({
       data: {
+        userId: userId,
+        name: user?.username,
         accessToken: generatedToken,
         itemId: generatedId,
       },
