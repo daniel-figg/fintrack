@@ -54,7 +54,7 @@ export const linkRouter = createTRPCRouter({
         const response = await plaidClient.itemPublicTokenExchange(request);
         const generatedToken = response.data.access_token;
         const generatedId = response.data.item_id;
-        await ctx.db.accessToken.create({
+        await ctx.db.user.create({
           data: {
             accessToken: generatedToken,
             itemId: generatedId,
