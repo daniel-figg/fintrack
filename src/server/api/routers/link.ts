@@ -29,12 +29,7 @@ export const linkRouter = createTRPCRouter({
         client_user_id: "user-id",
       },
       client_name: "Personal Finance App",
-      products: [
-        Products.Transactions,
-        Products.Investments,
-        Products.Liabilities,
-        Products.Auth,
-      ],
+      products: [Products.Transactions, Products.Investments, Products.Auth],
       country_codes: [CountryCode.Us],
       language: "en",
     };
@@ -47,18 +42,24 @@ export const linkRouter = createTRPCRouter({
       console.log(error);
     }
   }),
+
   exchangePublicToken: publicProcedure
     .input(z.string())
-    .query(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
       const request: ItemPublicTokenExchangeRequest = {
         public_token: input,
       };
 
       try {
         const response = await plaidClient.itemPublicTokenExchange(request);
-        const accessToken = response.data.access_token;
-        const itemId = response.data.item_id;
-        return [accessToken, itemId];
+        const generatedToken = response.data.access_token;
+        const generatedId = response.data.item_id;
+        await ctx.db.accessToken.create({
+          data: {
+            accessToken: generatedToken,
+            itemId: generatedId,
+          },
+        });
       } catch (err) {
         // handle error
       }
