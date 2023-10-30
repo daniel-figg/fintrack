@@ -36,7 +36,7 @@ const Exchange = async (token: string) => {
     await db.user.create({
       data: {
         userId: userId,
-        name: user?.username,
+        name: user?.username ?? user?.firstName,
         accessToken: generatedToken,
         itemId: generatedId,
       },
