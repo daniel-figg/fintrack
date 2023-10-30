@@ -12,9 +12,9 @@ generator client {
 }
 
 model User {
-    userId      String @id
-    name        String
-    itemId      String
+    userId      String?
+    name        String?
+    itemId      String  @id
     accessToken String
 
     @@index([userId], name: "userid_index")
