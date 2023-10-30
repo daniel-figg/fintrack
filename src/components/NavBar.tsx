@@ -66,6 +66,7 @@ export default function App() {
         </SignedOut>
         <SignedIn>
           <UserButton
+            afterSignOutUrl="/"
             appearance={
               {
                 //   elements: {
