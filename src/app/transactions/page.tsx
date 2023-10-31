@@ -3,23 +3,19 @@ import HorizontalBarChart from "~/components/HorizontalBarChart";
 import { type Payment, columns } from "./columns";
 import { DataTable } from "~/components/ui/data-table";
 import VerticalBarChart from "~/components/VerticalBarChart";
+import { api } from "~/trpc/server";
+import { auth } from "@clerk/nextjs";
 
-function getTransactionData(): Payment[] {
-  // Fetch data from your API here.
-  const fake: Payment[] = [];
-  for (let i = 1; i <= 100; i++) {
-    fake.push({
-      id: i.toString(),
-      amount: i,
-      status: "pending",
-      email: "m@example.com",
-    });
-  }
-  return fake;
-}
+const getTransactionData = async () => {
+  const { userId } = auth();
+  await api.link.sync.mutate(userId);
+  return await api.link.getData.query(userId);
+};
 
 const Transactions = () => {
   const data = getTransactionData();
+  console.log(data);
+
   return (
     <div className="flex flex-col justify-center">
       <div className="mx-auto flex max-h-80 max-w-full flex-row">
@@ -34,7 +30,7 @@ const Transactions = () => {
         </div>
       </div>
       <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data} />
+        {/* <DataTable columns={columns} data={data} /> */}
       </div>
     </div>
   );
