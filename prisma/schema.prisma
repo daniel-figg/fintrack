@@ -12,22 +12,39 @@ generator client {
 }
 
 model User {
-    userId      String?
-    name        String?
-    itemId      String  @id
-    accessToken String
+    userId String  @id
+    name   String?
+
+    @@index([userId], name: "userid_index")
+}
+
+model Items {
+    itemId            String  @id
+    userId            String
+    accessToken       String
+    transactionCursor String?
+    bankName          String?
 
     @@index([userId], name: "userid_index")
     @@index([accessToken], name: "accessToken_index")
 }
 
-model Transaction {
-    id       Int      @id @default(autoincrement())
-    date     DateTime @default(now())
-    name     String
-    amount   String
-    category String
-    status   String
+model Accounts {
+    accountId String @id
+    itemId    String
+    name      String
+}
+
+model Transactions {
+    transactionId   String   @id
+    userId          String
+    accountId       String
+    category        String?
+    date            DateTime @default(now())
+    name            String
+    amount          Decimal
+    currencyCode    String
+    confidenceLevel String?
 
     @@index([name], name: "name_index")
     @@index([amount], name: "amount_index")
