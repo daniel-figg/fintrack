@@ -1,26 +1,11 @@
 "use server";
 
 import { auth, currentUser } from "@clerk/nextjs";
-import {
-  Configuration,
-  type ItemPublicTokenExchangeRequest,
-  PlaidApi,
-  PlaidEnvironments,
-} from "plaid";
+import { type ItemPublicTokenExchangeRequest } from "plaid";
 import { db } from "~/server/db";
+import { plaidClient } from "~/server/api/routers/link";
 
 const Exchange = async (token: string) => {
-  const configuration = new Configuration({
-    basePath: PlaidEnvironments.sandbox,
-    baseOptions: {
-      headers: {
-        "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-        "PLAID-SECRET": process.env.PLAID_SECRET,
-      },
-    },
-  });
-  const plaidClient = new PlaidApi(configuration);
-
   const request: ItemPublicTokenExchangeRequest = {
     public_token: token,
   };
@@ -35,10 +20,17 @@ const Exchange = async (token: string) => {
 
     await db.user.create({
       data: {
-        userId: userId,
+        userId: userId ?? "null",
         name: user?.username ?? user?.firstName,
-        accessToken: generatedToken,
+      },
+    });
+    await db.items.create({
+      data: {
         itemId: generatedId,
+        userId: userId ?? "null",
+        accessToken: generatedToken,
+        transactionCursor: undefined,
+        bankName: null,
       },
     });
   } catch (err) {
