@@ -37,8 +37,6 @@ const Exchange = async (token: string) => {
       data: {
         userId: userId,
         name: user?.username ?? user?.firstName,
-        accessToken: generatedToken,
-        itemId: generatedId,
       },
     });
   } catch (err) {
