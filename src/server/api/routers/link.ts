@@ -3,19 +3,19 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import {
   type LinkTokenCreateRequest,
-  type ItemPublicTokenExchangeRequest,
   Configuration,
   PlaidApi,
   PlaidEnvironments,
   Products,
   CountryCode,
-  Transaction,
-  RemovedTransaction,
-  TransactionsSyncRequest,
+  type Transaction,
+  type RemovedTransaction,
+  type TransactionsSyncRequest,
 } from "plaid";
 
+const PLAID_ENV = process.env.PLAID_ENV ?? "sandbox";
 const configuration = new Configuration({
-  basePath: PlaidEnvironments.sandbox,
+  basePath: PlaidEnvironments[PLAID_ENV],
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
@@ -87,7 +87,6 @@ export const linkRouter = createTRPCRouter({
       };
       const response = await plaidClient.transactionsSync(request);
       const data = response.data;
-      console.log(data);
 
       // Add this page of results
       added = added.concat(data.added);
