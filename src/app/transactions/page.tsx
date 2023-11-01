@@ -1,25 +1,22 @@
 import DoughnutChart from "~/components/DoughnutChart";
 import HorizontalBarChart from "~/components/HorizontalBarChart";
-import { type Payment, columns } from "./columns";
+import { type Transaction, columns } from "./columns";
 import { DataTable } from "~/components/ui/data-table";
 import VerticalBarChart from "~/components/VerticalBarChart";
+import { api } from "~/trpc/server";
+import { auth, currentUser } from "@clerk/nextjs";
 
-function getTransactionData(): Payment[] {
-  // Fetch data from your API here.
-  const fake: Payment[] = [];
-  for (let i = 1; i <= 100; i++) {
-    fake.push({
-      id: i.toString(),
-      amount: i,
-      status: "pending",
-      email: "m@example.com",
-    });
-  }
-  return fake;
-}
+export const { userId } = auth();
+export const user = await currentUser();
 
-const Transactions = () => {
-  const data = getTransactionData();
+const getTransactionData = async (): Promise<Transaction[]> => {
+  await api.transaction.sync.mutate(userId);
+  return await api.transaction.getData.query(userId);
+};
+
+const Transactions = async () => {
+  const data = await getTransactionData();
+
   return (
     <div className="flex flex-col justify-center">
       <div className="mx-auto flex max-h-80 max-w-full flex-row">

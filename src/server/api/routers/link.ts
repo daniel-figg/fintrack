@@ -1,26 +1,8 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import {
-  type LinkTokenCreateRequest,
-  type ItemPublicTokenExchangeRequest,
-  Configuration,
-  PlaidApi,
-  PlaidEnvironments,
-  Products,
-  CountryCode,
-} from "plaid";
-
-const configuration = new Configuration({
-  basePath: PlaidEnvironments.sandbox,
-  baseOptions: {
-    headers: {
-      "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
-      "PLAID-SECRET": process.env.PLAID_SECRET,
-    },
-  },
-});
-const plaidClient = new PlaidApi(configuration);
+import { type LinkTokenCreateRequest, Products, CountryCode } from "plaid";
+import { plaidClient } from "../plaidConfig";
 
 export const linkRouter = createTRPCRouter({
   createLinkToken: publicProcedure.query(async () => {
@@ -43,25 +25,27 @@ export const linkRouter = createTRPCRouter({
     }
   }),
 
-  exchangePublicToken: publicProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      const request: ItemPublicTokenExchangeRequest = {
-        public_token: input,
-      };
+  /* Exchange Public Token Old */
 
-      try {
-        const response = await plaidClient.itemPublicTokenExchange(request);
-        const generatedToken = response.data.access_token;
-        const generatedId = response.data.item_id;
-        await ctx.db.user.create({
-          data: {
-            accessToken: generatedToken,
-            itemId: generatedId,
-          },
-        });
-      } catch (err) {
-        // handle error
-      }
-    }),
+  // exchangePublicToken: publicProcedure
+  //   .input(z.string())
+  //   .mutation(async ({ ctx, input }) => {
+  //     const request: ItemPublicTokenExchangeRequest = {
+  //       public_token: input,
+  //     };
+
+  //     try {
+  //       const response = await plaidClient.itemPublicTokenExchange(request);
+  //       const generatedToken = response.data.access_token;
+  //       const generatedId = response.data.item_id;
+  //       await ctx.db.user.create({
+  //         data: {
+  //           accessToken: generatedToken,
+  //           itemId: generatedId,
+  //         },
+  //       });
+  //     } catch (err) {
+  //       // handle error
+  //     }
+  //   }),
 });

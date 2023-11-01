@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { plaidClient } from "./link";
+import { plaidClient } from "../plaidConfig";
 
-import type {
-  Transaction,
-  RemovedTransaction,
-  TransactionsSyncRequest,
+import {
+  type Transaction,
+  type RemovedTransaction,
+  type TransactionsSyncRequest,
+  AccountType,
 } from "plaid";
 
 export const transactionRouter = createTRPCRouter({
@@ -14,6 +15,9 @@ export const transactionRouter = createTRPCRouter({
     return await ctx.db.transactions.findMany({
       where: {
         userId: input,
+      },
+      orderBy: {
+        date: "desc",
       },
     });
   }),
@@ -23,7 +27,7 @@ export const transactionRouter = createTRPCRouter({
     // received one for the Item. Leave null if this is your
     // first sync call for this Item. The first request will
     // return a cursor.
-    //   let cursor = database.getLatestCursorOrNull(itemId);
+
     const { accessToken, itemId } = await ctx.db.items.findFirstOrThrow({
       where: {
         userId: input,
@@ -34,6 +38,7 @@ export const transactionRouter = createTRPCRouter({
       },
     });
 
+    //   let cursor = database.getLatestCursorOrNull(itemId);
     const { transactionCursor } = await ctx.db.items.findFirstOrThrow({
       where: {
         itemId: itemId,
@@ -73,16 +78,24 @@ export const transactionRouter = createTRPCRouter({
 
     // Persist cursor and updated data
     added.map(async (transaction) => {
+      const account = ctx.db.accounts.findFirstOrThrow({
+        where: {
+          accountId: transaction.account_id,
+        },
+        select: {
+          name: true,
+        },
+      });
+
       await ctx.db.transactions.create({
         data: {
           transactionId: transaction.transaction_id,
           userId: input,
-          accountId: transaction.account_id,
+          account: (await account).name,
           category: transaction.personal_finance_category?.primary,
           date: transaction.authorized_date ?? transaction.date,
           name: transaction.merchant_name ?? transaction.name,
           amount: transaction.amount,
-          currencyCode: transaction.iso_currency_code ?? "USD",
           confidenceLevel:
             transaction.personal_finance_category?.confidence_level,
         },
@@ -90,18 +103,26 @@ export const transactionRouter = createTRPCRouter({
     });
 
     modified.map(async (transaction) => {
+      const account = ctx.db.accounts.findFirstOrThrow({
+        where: {
+          accountId: transaction.account_id,
+        },
+        select: {
+          name: true,
+        },
+      });
+
       await ctx.db.transactions.update({
         where: {
           transactionId: transaction.transaction_id,
         },
         data: {
           transactionId: transaction.transaction_id,
-          accountId: transaction.account_id,
+          account: (await account).name,
           category: transaction.personal_finance_category?.primary,
           date: transaction.authorized_date ?? transaction.date,
           name: transaction.merchant_name ?? transaction.name,
           amount: transaction.amount,
-          currencyCode: transaction.iso_currency_code ?? "USD",
           confidenceLevel:
             transaction.personal_finance_category?.confidence_level,
         },

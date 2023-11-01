@@ -1,6 +1,7 @@
 "use client";
 
 import Exchange from "./Exchange";
+import SaveAccounts from "./SaveAccounts";
 import { Button } from "./ui/button";
 import { type PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
 
@@ -14,7 +15,8 @@ const LinkButton: React.FC<linkButton> = ({ linkToken }) => {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     onSuccess: async (public_token, _metadata): Promise<undefined> => {
       // send public_token to server
-      await Exchange(public_token);
+      const accessToken = (await Exchange(public_token)) ?? "null";
+      await SaveAccounts(accessToken);
     },
   });
 

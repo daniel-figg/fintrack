@@ -36,15 +36,14 @@ model Accounts {
 }
 
 model Transactions {
-    transactionId   String   @id
+    transactionId   String  @id
     userId          String
-    accountId       String
+    account         String
     category        String?
-    date            DateTime @default(now())
+    date            String
     name            String
-    amount          Decimal
-    currencyCode    String
     confidenceLevel String?
+    amount          Float
 
     @@index([name], name: "name_index")
     @@index([amount], name: "amount_index")
