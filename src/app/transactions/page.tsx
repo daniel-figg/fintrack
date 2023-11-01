@@ -4,8 +4,10 @@ import { type Transaction, columns } from "./columns";
 import { DataTable } from "~/components/ui/data-table";
 import VerticalBarChart from "~/components/VerticalBarChart";
 import { api } from "~/trpc/server";
+import { auth } from "@clerk/nextjs";
 
 const getTransactionData = async (): Promise<Transaction[]> => {
+  const { userId } = auth();
   await api.transaction.sync.mutate(userId);
   return await api.transaction.getData.query(userId);
 };
