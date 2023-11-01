@@ -3,10 +3,11 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { plaidClient } from "../plaidConfig";
 
-import type {
-  Transaction,
-  RemovedTransaction,
-  TransactionsSyncRequest,
+import {
+  type Transaction,
+  type RemovedTransaction,
+  type TransactionsSyncRequest,
+  AccountType,
 } from "plaid";
 
 export const transactionRouter = createTRPCRouter({
@@ -14,6 +15,9 @@ export const transactionRouter = createTRPCRouter({
     return await ctx.db.transactions.findMany({
       where: {
         userId: input,
+      },
+      orderBy: {
+        date: "desc",
       },
     });
   }),
@@ -74,11 +78,20 @@ export const transactionRouter = createTRPCRouter({
 
     // Persist cursor and updated data
     added.map(async (transaction) => {
+      const account = ctx.db.accounts.findFirstOrThrow({
+        where: {
+          accountId: transaction.account_id,
+        },
+        select: {
+          name: true,
+        },
+      });
+
       await ctx.db.transactions.create({
         data: {
           transactionId: transaction.transaction_id,
           userId: input,
-          accountId: transaction.account_id,
+          account: (await account).name,
           category: transaction.personal_finance_category?.primary,
           date: transaction.authorized_date ?? transaction.date,
           name: transaction.merchant_name ?? transaction.name,
@@ -90,13 +103,22 @@ export const transactionRouter = createTRPCRouter({
     });
 
     modified.map(async (transaction) => {
+      const account = ctx.db.accounts.findFirstOrThrow({
+        where: {
+          accountId: transaction.account_id,
+        },
+        select: {
+          name: true,
+        },
+      });
+
       await ctx.db.transactions.update({
         where: {
           transactionId: transaction.transaction_id,
         },
         data: {
           transactionId: transaction.transaction_id,
-          accountId: transaction.account_id,
+          account: (await account).name,
           category: transaction.personal_finance_category?.primary,
           date: transaction.authorized_date ?? transaction.date,
           name: transaction.merchant_name ?? transaction.name,
