@@ -9,7 +9,7 @@ import { transactionRouter } from "./routers/transaction";
  */
 export const appRouter = createTRPCRouter({
   link: linkRouter,
-  // transaction: transactionRouter,
+  transaction: transactionRouter,
 });
 
 // export type definition of API
