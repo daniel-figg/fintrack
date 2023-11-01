@@ -4,9 +4,6 @@ import { type Transaction, columns } from "./columns";
 import { DataTable } from "~/components/ui/data-table";
 import VerticalBarChart from "~/components/VerticalBarChart";
 import { api } from "~/trpc/server";
-import { auth } from "@clerk/nextjs";
-
-export const { userId } = auth();
 
 const getTransactionData = async (): Promise<Transaction[]> => {
   await api.transaction.sync.mutate(userId);
