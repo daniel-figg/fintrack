@@ -33,6 +33,7 @@ const Exchange = async (token: string) => {
         bankName: null,
       },
     });
+    return generatedToken;
   } catch (err) {
     // handle error
   }
