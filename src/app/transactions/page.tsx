@@ -1,20 +1,21 @@
 import DoughnutChart from "~/components/DoughnutChart";
 import HorizontalBarChart from "~/components/HorizontalBarChart";
-import { type Payment, columns } from "./columns";
+import { type Transaction, columns } from "./columns";
 import { DataTable } from "~/components/ui/data-table";
 import VerticalBarChart from "~/components/VerticalBarChart";
 import { api } from "~/trpc/server";
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 
-const getTransactionData = async () => {
-  const { userId } = auth();
-  await api.link.sync.mutate(userId);
-  return await api.link.getData.query(userId);
+export const { userId } = auth();
+export const user = await currentUser();
+
+const getTransactionData = async (): Promise<Transaction[]> => {
+  await api.transaction.sync.mutate(userId);
+  return await api.transaction.getData.query(userId);
 };
 
-const Transactions = () => {
-  const data = getTransactionData();
-  console.log(data);
+const Transactions = async () => {
+  const data = await getTransactionData();
 
   return (
     <div className="flex flex-col justify-center">
@@ -30,7 +31,7 @@ const Transactions = () => {
         </div>
       </div>
       <div className="container mx-auto py-10">
-        {/* <DataTable columns={columns} data={data} /> */}
+        <DataTable columns={columns} data={data} />
       </div>
     </div>
   );
