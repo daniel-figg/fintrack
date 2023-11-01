@@ -43,7 +43,7 @@ model Transactions {
     date            String
     name            String
     confidenceLevel String?
-    amount          Decimal
+    amount          Float
 
     @@index([name], name: "name_index")
     @@index([amount], name: "amount_index")
