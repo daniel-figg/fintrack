@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { plaidClient } from "./link";
+import { plaidClient } from "../plaidConfig";
 
 import type {
   Transaction,

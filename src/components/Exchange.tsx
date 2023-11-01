@@ -3,7 +3,7 @@
 import { auth, currentUser } from "@clerk/nextjs";
 import { type ItemPublicTokenExchangeRequest } from "plaid";
 import { db } from "~/server/db";
-import { plaidClient } from "~/server/api/routers/link";
+import { plaidClient } from "~/server/api/plaidConfig";
 
 const Exchange = async (token: string) => {
   const request: ItemPublicTokenExchangeRequest = {
