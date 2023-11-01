@@ -38,7 +38,7 @@ model Accounts {
 model Transactions {
     transactionId   String  @id
     userId          String
-    accountId       String
+    account         String
     category        String?
     date            String
     name            String
