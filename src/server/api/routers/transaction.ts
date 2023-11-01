@@ -23,7 +23,7 @@ export const transactionRouter = createTRPCRouter({
     // received one for the Item. Leave null if this is your
     // first sync call for this Item. The first request will
     // return a cursor.
-    //   let cursor = database.getLatestCursorOrNull(itemId);
+
     const { accessToken, itemId } = await ctx.db.items.findFirstOrThrow({
       where: {
         userId: input,
@@ -34,6 +34,7 @@ export const transactionRouter = createTRPCRouter({
       },
     });
 
+    //   let cursor = database.getLatestCursorOrNull(itemId);
     const { transactionCursor } = await ctx.db.items.findFirstOrThrow({
       where: {
         itemId: itemId,
@@ -82,7 +83,6 @@ export const transactionRouter = createTRPCRouter({
           date: transaction.authorized_date ?? transaction.date,
           name: transaction.merchant_name ?? transaction.name,
           amount: transaction.amount,
-          currencyCode: transaction.iso_currency_code ?? "USD",
           confidenceLevel:
             transaction.personal_finance_category?.confidence_level,
         },
@@ -101,7 +101,6 @@ export const transactionRouter = createTRPCRouter({
           date: transaction.authorized_date ?? transaction.date,
           name: transaction.merchant_name ?? transaction.name,
           amount: transaction.amount,
-          currencyCode: transaction.iso_currency_code ?? "USD",
           confidenceLevel:
             transaction.personal_finance_category?.confidence_level,
         },
