@@ -36,11 +36,11 @@ model Accounts {
 }
 
 model Transactions {
-    transactionId   String   @id
+    transactionId   String  @id
     userId          String
     accountId       String
     category        String?
-    date            DateTime @default(now())
+    date            String
     name            String
     amount          Decimal
     currencyCode    String
