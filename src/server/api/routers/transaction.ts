@@ -7,7 +7,6 @@ import {
   type Transaction,
   type RemovedTransaction,
   type TransactionsSyncRequest,
-  AccountType,
 } from "plaid";
 
 export const transactionRouter = createTRPCRouter({
