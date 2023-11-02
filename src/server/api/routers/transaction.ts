@@ -11,7 +11,7 @@ import {
 } from "plaid";
 
 export const transactionRouter = createTRPCRouter({
-  getData: publicProcedure.query(async ({ ctx, input }) => {
+  getData: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return await ctx.db.transactions.findMany({
       where: {
         userId: input,
