@@ -7,7 +7,7 @@ import { api } from "~/trpc/server";
 import { auth } from "@clerk/nextjs";
 
 const getTransactionData = async (): Promise<Transaction[]> => {
-  const { userId } = auth();
+  const userId = auth().userId ?? "null";
   await api.transaction.sync.mutate(userId);
   return await api.transaction.getData.query(userId);
 };
