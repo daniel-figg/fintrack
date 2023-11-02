@@ -3,9 +3,9 @@
 import Exchange from "./Exchange";
 import SaveAccounts from "./SaveAccounts";
 import { Button } from "./ui/button";
-import { usePlaidLink, type PlaidLinkPropTypes } from "react-plaid-link";
+import { usePlaidLink } from "react-plaid-link";
 
-type linkButton = PlaidLinkPropTypes & {
+type linkButton = {
   linkToken: string;
 };
 
