@@ -53,7 +53,7 @@ export const transactionRouter = createTRPCRouter({
     // Removed transaction ids
     let removed: Array<RemovedTransaction> = [];
     let hasMore = true;
-    let cursor = transactionCursor;
+    let cursor = transactionCursor ?? undefined;
 
     // Iterate through each page of new transaction updates for item
     while (hasMore) {
