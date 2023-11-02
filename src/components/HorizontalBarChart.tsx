@@ -39,8 +39,6 @@ export const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
 const HorizontalBarChart = () => {
   return <Bar data={data} options={options} />;
 };

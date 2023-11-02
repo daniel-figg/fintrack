@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { type LinkTokenCreateRequest, Products, CountryCode } from "plaid";
 import { plaidClient } from "../plaidConfig";
