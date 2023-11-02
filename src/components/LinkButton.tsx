@@ -3,14 +3,14 @@
 import Exchange from "./Exchange";
 import SaveAccounts from "./SaveAccounts";
 import { Button } from "./ui/button";
-import { type PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
+import { usePlaidLink, type PlaidLinkPropTypes } from "react-plaid-link";
 
-interface linkButton {
-  linkToken: string | undefined;
-}
+type linkButton = PlaidLinkPropTypes & {
+  linkToken: string;
+};
 
 const LinkButton: React.FC<linkButton> = ({ linkToken }) => {
-  const { open, ready } = usePlaidLink<PlaidLinkOptions>({
+  const { open, ready } = usePlaidLink({
     token: linkToken,
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     onSuccess: async (public_token, _metadata): Promise<undefined> => {
