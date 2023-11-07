@@ -1,5 +1,4 @@
 "use client";
-import { data } from "./DoughnutChart";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,17 +29,17 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "right" as const,
+      display: false,
     },
     title: {
       display: true,
-      text: "Chart.js Horizontal Bar Chart",
+      text: "Monthly Total",
     },
   },
 };
 
-const HorizontalBarChart = () => {
-  return <Bar data={data} options={options} />;
+const HorizontalBarChart = ({ chartData }) => {
+  return <Bar data={chartData} options={options} />;
 };
 
 export default HorizontalBarChart;

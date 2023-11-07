@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { data } from "./DoughnutChart";
 
 ChartJS.register(
   CategoryScale,
@@ -25,17 +24,28 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      display: false,
     },
     title: {
       display: true,
-      text: "Chart.js Bar Chart",
+      text: "Spendings",
     },
   },
 };
 
-const VerticalBarChart = () => {
-  return <Bar data={data} options={options} />;
+interface VerticalBarChartProps {
+  chartData: {
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      backgroundColor: string;
+    }[];
+  };
+}
+
+const VerticalBarChart: React.FC<VerticalBarChartProps> = ({ chartData }) => {
+  return <Bar data={chartData} options={options} />;
 };
 
 export default VerticalBarChart;
