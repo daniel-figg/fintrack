@@ -21,6 +21,40 @@ export const transactionRouter = createTRPCRouter({
     });
   }),
 
+  getCategoryCount: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.transactions.groupBy({
+        by: ["category"],
+        _count: {
+          category: true,
+        },
+        where: {
+          userId: input,
+          amount: {
+            gt: 0,
+          },
+        },
+      });
+    }),
+
+  getCategorySum: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.transactions.groupBy({
+        by: ["category"],
+        _sum: {
+          amount: true,
+        },
+        where: {
+          userId: input,
+          amount: {
+            gt: 0,
+          },
+        },
+      });
+    }),
+
   sync: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     // Provide a cursor from your database if you've previously
     // received one for the Item. Leave null if this is your
