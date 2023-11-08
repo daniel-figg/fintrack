@@ -49,3 +49,22 @@ model Transactions {
     @@index([amount], name: "amount_index")
     @@index([category], name: "category_index")
 }
+
+model Holdings {
+    accountId  String @id
+    userId     String
+    securityId String
+    price      Float
+    date       String
+    costBasis  Float
+    quantity   Float
+}
+
+model Securities {
+    securityId String  @id
+    name       String
+    ticker     String
+    type       String
+    closePrice String?
+    updateDate String?
+}
