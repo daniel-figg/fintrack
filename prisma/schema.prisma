@@ -51,20 +51,30 @@ model Transactions {
 }
 
 model Holdings {
-    accountId  String @id
+    accountId  String  @id
     userId     String
     securityId String
     price      Float
-    date       String
-    costBasis  Float
+    date       String?
+    costBasis  Float?
     quantity   Float
 }
 
 model Securities {
     securityId String  @id
-    name       String
-    ticker     String
-    type       String
-    closePrice String?
+    userId     String
+    name       String?
+    ticker     String?
+    type       String?
+    closePrice Float?
     updateDate String?
+}
+
+model Balance {
+    accountId String @id
+    available Float
+    current   Float
+    limit     Float?
+    name      String
+    type      String
 }
