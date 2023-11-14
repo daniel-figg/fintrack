@@ -1,6 +1,13 @@
+import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { type LinkTokenCreateRequest, Products, CountryCode } from "plaid";
+import {
+  type LinkTokenCreateRequest,
+  Products,
+  CountryCode,
+  ItemPublicTokenExchangeRequest,
+} from "plaid";
 import { plaidClient } from "../plaidConfig";
+import { auth, currentUser } from "@clerk/nextjs";
 
 export const linkRouter = createTRPCRouter({
   createLinkToken: publicProcedure.query(async () => {
@@ -25,25 +32,39 @@ export const linkRouter = createTRPCRouter({
 
   /* Exchange Public Token Old */
 
-  // exchangePublicToken: publicProcedure
-  //   .input(z.string())
-  //   .mutation(async ({ ctx, input }) => {
-  //     const request: ItemPublicTokenExchangeRequest = {
-  //       public_token: input,
-  //     };
+  /* exchangePublicToken: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      const request: ItemPublicTokenExchangeRequest = {
+        public_token: input,
+      };
 
-  //     try {
-  //       const response = await plaidClient.itemPublicTokenExchange(request);
-  //       const generatedToken = response.data.access_token;
-  //       const generatedId = response.data.item_id;
-  //       await ctx.db.user.create({
-  //         data: {
-  //           accessToken: generatedToken,
-  //           itemId: generatedId,
-  //         },
-  //       });
-  //     } catch (err) {
-  //       // handle error
-  //     }
-  //   }),
+      const { userId } = auth();
+      const user = await currentUser();
+
+      try {
+        const response = await plaidClient.itemPublicTokenExchange(request);
+        const generatedToken = response.data.access_token;
+        const generatedId = response.data.item_id;
+
+        await ctx.db.user.create({
+          data: {
+            userId: userId ?? "null",
+            name: user?.username ?? user?.firstName,
+          },
+        });
+        await ctx.db.items.create({
+          data: {
+            itemId: generatedId,
+            userId: userId ?? "null",
+            accessToken: generatedToken,
+            transactionCursor: undefined,
+            bankName: null,
+          },
+        });
+        return generatedToken;
+      } catch (err) {
+        // handle error
+      }
+    }), */
 });
