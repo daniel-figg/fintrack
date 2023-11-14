@@ -2,6 +2,8 @@
 
 import Exchange from "./Exchange";
 import SaveAccounts from "./SaveAccounts";
+import SaveBalance from "./SaveBalance";
+import SyncHoldings from "./SyncHoldings";
 import { Button } from "./ui/button";
 import { usePlaidLink } from "react-plaid-link";
 
@@ -17,6 +19,8 @@ const LinkButton: React.FC<linkButton> = ({ linkToken }) => {
       // send public_token to server
       const accessToken = (await Exchange(public_token)) ?? "null";
       await SaveAccounts(accessToken);
+      await SyncHoldings(accessToken);
+      await SaveBalance(accessToken);
     },
   });
 
