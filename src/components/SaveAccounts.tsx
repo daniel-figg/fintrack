@@ -4,18 +4,17 @@ import { db } from "~/server/db";
 import { plaidClient } from "~/server/api/plaidConfig";
 
 const SaveAccounts = async (token: string) => {
-  const { accessToken, itemId } = await db.items.findFirstOrThrow({
+  const { itemId } = await db.items.findFirstOrThrow({
     where: {
       accessToken: token,
     },
     select: {
-      accessToken: true,
       itemId: true,
     },
   });
 
   const request: AccountsGetRequest = {
-    access_token: accessToken,
+    access_token: token,
   };
   try {
     const response = await plaidClient.accountsGet(request);
