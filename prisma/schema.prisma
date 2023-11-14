@@ -72,8 +72,9 @@ model Securities {
 
 model Balance {
     accountId String @id
-    available Float
-    current   Float
+    userId    String
+    available Float?
+    current   Float?
     limit     Float?
     name      String
     type      String
