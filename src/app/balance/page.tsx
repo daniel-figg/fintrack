@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import Link from "next/link";
 
 const userId = auth().userId ?? "null";
 
@@ -16,9 +17,11 @@ const Balance = async () => {
   return (
     <div className="flex items-center">
       {accounts.map((account) => (
-        <Card key={account.accountId} className="w-full">
+        <Card key={account.accountId} className="m-5 w-full">
           <CardHeader>
-            <CardTitle>{account.name}</CardTitle>
+            <CardTitle>
+              <Link href={`/balance/${account.accountId}`}>{account.name}</Link>
+            </CardTitle>
             <CardDescription>
               {account.type.charAt(0).toUpperCase() + account.type.slice(1)}
             </CardDescription>
@@ -28,8 +31,8 @@ const Balance = async () => {
             <p>{`Current: \$${account.current}`}</p>
             <p>{`Limit: \$${account.limit}`}</p>
           </CardContent>
-          <CardFooter>
-            <p>footer</p>
+          <CardFooter className="text-xs">
+            <p>{`${account.accountId}`}</p>
           </CardFooter>
         </Card>
       ))}
